@@ -17,6 +17,10 @@
         android:theme="@style/Theme.TFLite_demo04_dogs_vs_cats"
         tools:targetApi="31">
         <activity
+            android:name=".PreviewActivity"
+            android:exported="false"
+            android:parentActivityName=".MainActivity"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

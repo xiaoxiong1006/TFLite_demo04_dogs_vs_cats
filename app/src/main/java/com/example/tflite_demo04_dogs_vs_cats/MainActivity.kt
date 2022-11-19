@@ -74,6 +74,13 @@ class MainActivity : AppCompatActivity() {
                             intent.data = uri
                             sendBroadcast(intent)
                         }
+
+                        // 跳转到显示窗口
+                        val intent = Intent(this@MainActivity, PreviewActivity::class.java)
+                        var imgUri = Uri.fromFile(File(file.absolutePath))
+                        intent.putExtra("path",imgUri.toString())
+                        startActivity(intent)
+
                     }
                 })
         }
