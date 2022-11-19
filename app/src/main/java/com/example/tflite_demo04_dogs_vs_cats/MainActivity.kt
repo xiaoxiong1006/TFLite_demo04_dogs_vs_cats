@@ -22,6 +22,9 @@ private const val REQUEST_CODE_PERMISSIONS = 1
 //这是要获取的权限
 private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA,
     Manifest.permission.READ_EXTERNAL_STORAGE)
+// 读取相册的请求码
+private const val IMAGE_REQUEST_CODE = 2
+
 
 class MainActivity : AppCompatActivity() {
     private var imageCapture:ImageCapture? = null
@@ -84,6 +87,14 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
         }
+
+        // 从相册中选择
+        val btn_photo = findViewById<ImageView>(R.id.btn_photo)
+        btn_photo.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type ="image/*"
+            startActivityForResult(intent, IMAGE_REQUEST_CODE)
+        }
     }
 
     /**
@@ -102,6 +113,22 @@ class MainActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "没有权限！！", Toast.LENGTH_SHORT).show()
                 finish()
+            }
+        }
+    }
+
+    /**
+     * 带返回值返回
+     */
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            IMAGE_REQUEST_CODE -> {
+                val imgUri: Uri? = data?.data //获取系统返回的照片的Uri
+                val intent = Intent(this@MainActivity, PreviewActivity::class.java)
+                intent.putExtra("path", imgUri.toString())
+                startActivity(intent)
             }
         }
     }
